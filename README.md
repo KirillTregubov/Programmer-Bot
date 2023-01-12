@@ -44,7 +44,17 @@ Run `npm run dev` or `yarn dev` to start the bot in development mode, which will
 
 ### Production
 
-Run `npm run start` or `yarn start` to start the bot in production mode.
+First build the project by running `npm run build` or `yarn build`.
+
+Then execute `npm run start` or `yarn start` to start the bot in production mode.
+
+#### Fly.io
+
+To deploy a new version of the bot, execute `flyctl deploy`.
+
+To stop the bot, execute `flyctl scale count 0`. You must re-deploy for changes to take effect.
+
+The bot can be restarted by reverting to `flyctl scale count 1` and re-deploying.
 
 ### Linting
 
