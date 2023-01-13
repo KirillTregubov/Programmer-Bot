@@ -32,28 +32,39 @@ This bot was created for [Programmer Network](https://programmer.network), which
 
 2. Run `npm install` or `yarn`
 3. Rename `.env.example` to `.env` and fill in the values
-   - DISCORD_TOKEN: Obtained by following [this guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot).
-   - DISCORD_CLIENT_ID: Your Application ID available under `Your App > General Information` after following the above guide.
-   - DISCORD_DEBUG_GUILD_ID: This variable is used to deploy the newest bot commands to a specific server. To obtain the server ID, right-click the desired server in Discord and select 'Copy ID'. This requires 'Developer Mode' to be enabled, which can be done by going to `User Settings (gear icon) > Advanced` and toggling the 'Developer Mode' switch."
+   - _DISCORD_TOKEN_: Obtained by following [this guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot).
+   - _DISCORD_CLIENT_ID_: Your Application ID available under `Your App > General Information` after following the above guide.
+   - _DISCORD_DEBUG_GUILD_ID_: This variable is used to deploy the newest bot commands to a specific server. To obtain the server ID, right-click the desired server in Discord and select 'Copy ID'. This requires 'Developer Mode' to be enabled, which can be done by going to `User Settings (gear icon) > Advanced` and toggling the 'Developer Mode' switch."
+   - _DATABASE_URL_: This is the connection string to a local PostgreSQL database.
 
 ## Usage
 
 ### Development
 
-Run `npm run dev` or `yarn dev` to start the bot in development mode, which will automatically restart the bot when changes are made.
+Before running the bot in development mode, you must first migrate the database by running `npm run migrate` or `yarn migrate`.
+
+Next, execute `npm run dev` or `yarn dev` to start the bot in development mode. This mode will automatically restart the bot when changes are made.
 
 ### Production
 
-First build the project by running `npm run build` or `yarn build`.
+Build the project by running `npm run build` or `yarn build`.
 
 Then execute `npm run start` or `yarn start` to start the bot in production mode.
 
-#### Fly.io
+### Fly.io
+
+This project is configured to run on [Fly.io](https://fly.io), which is a free hosting service for Node.js apps. To deploy to Fly.io, you must first install the [Fly CLI](https://fly.io/docs/getting-started/installing-flyctl/) and authenticate.
+
+Before deploying this bot, you must copy the `.env` file to `.env.production` and fill in the values. The `DISCORD_TOKEN` variable should be the bot's token, and the `DISCORD_CLIENT_ID` value should be the bot's Application ID. You should also create a PostgreSQL database (either on Fly.io or another host) and add the connection string to the `DATABASE_URL` variable.
+
+#### Deploy
 
 To deploy a new version of the bot, execute `flyctl deploy`.
 
+#### Stop
 To stop the bot, execute `flyctl scale count 0`. You must re-deploy for changes to take effect.
 
+#### Restart
 The bot can be restarted by reverting to `flyctl scale count 1` and re-deploying.
 
 ### Linting
