@@ -62,7 +62,9 @@ Before deploying this bot, you must copy the `.env` file to `.env.production` an
 To deploy a new version of the bot, execute `flyctl deploy`.
 
 #### Stop
-To stop the bot, execute `flyctl scale count 0`. You must re-deploy for changes to take effect.
+To stop the bot, execute `flyctl scale count 0`.
+
+> _NOTE_: You must re-deploy for changes to take effect.
 
 #### Restart
 The bot can be restarted by reverting to `flyctl scale count 1` and re-deploying.
