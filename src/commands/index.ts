@@ -1,7 +1,8 @@
 import { Command } from '../lib/types'
-import ping from './ping.js'
-import adopt from './adopt.js'
+import Apply from './apply.js'
+import Adopt from './adopt.js'
+import Ping from './ping.js'
 
-export const Commands: Command[] = [adopt, ping]
+export const Commands: Command[] = [Adopt, Apply, Ping]
 
 export default Commands

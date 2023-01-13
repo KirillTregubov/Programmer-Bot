@@ -5,9 +5,7 @@ import {
   SlashCommandBuilder,
   Client
 } from 'discord.js'
-
-const channelName = 'early-adopters'
-const roleName = 'Early Adopter ⭐'
+import { roleName, channelName } from './config.js'
 
 const Adopt = {
   data: new SlashCommandBuilder()
@@ -22,6 +20,8 @@ const Adopt = {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
     .setDMPermission(false),
   async execute(client: Client, interaction: CommandInteraction) {
+    if (!interaction.guild) return
+
     const role = await interaction.guild.roles.cache.find(
       (role) => role.name == roleName
     )
@@ -62,11 +62,11 @@ const Adopt = {
         .find((channel) => channel.name === channelName)
         ?.toString()) || null
     if (!channel)
-      interaction.reply({
+      return interaction.reply({
         content: `Congratulations ${member?.user}, you are now an \`${roleName}\`. (Error: Unable to find channel #${channelName})`
       })
 
-    await interaction.reply({
+    return interaction.reply({
       content: `Congratulations ${member?.user}, you are now an \`${roleName}\`! Please use ${channel} to share any suggestions, bug reports, feature requests, and discussions.`
     })
   }
