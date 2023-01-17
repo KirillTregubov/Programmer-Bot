@@ -76,7 +76,7 @@ const Apply = {
     }
 
     return interaction.reply({
-      content: `${interaction.user} has been added to the waitlist!`
+      content: `${interaction.user} has been added to the \`${roleName}\` waitlist!`
     })
   }
 }
