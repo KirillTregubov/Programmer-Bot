@@ -8,6 +8,11 @@ interface BotClient extends Client {
   commands: Collection<string, Command>
 }
 
+console.log(
+  'Started bot on',
+  new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+)
+
 const token = process.env.DISCORD_TOKEN
 const clientId = process.env.DISCORD_CLIENT_ID
 if (!token || !clientId)

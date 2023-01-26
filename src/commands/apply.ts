@@ -1,19 +1,34 @@
 import { Prisma } from '@prisma/client'
-import {
-  Client,
-  CommandInteraction,
-  GuildMember,
-  SlashCommandBuilder
-} from 'discord.js'
+import { Client, GuildMember, SlashCommandBuilder } from 'discord.js'
+import { z } from 'zod'
 import prisma from '../lib/db.js'
 import { roleName, channelName } from './config.js'
 
 const Apply = {
   data: new SlashCommandBuilder()
     .setName('apply')
-    .setDescription('Apply to be an early adopter of Programmer Network!'),
-  execute: async (client: Client, interaction: CommandInteraction) => {
+    .setDescription('Apply to be an early adopter of Programmer Network!')
+    .addStringOption((option) =>
+      option
+        .setName('email')
+        .setDescription('Your email address')
+        .setRequired(true)
+    ),
+  execute: async (client: Client, interaction) => {
     if (!interaction.guild) return
+
+    let email = interaction.options.getString('email')
+
+    try {
+      email = z.string().email().parse(email)
+    } catch (error) {
+      email = null
+      return interaction.reply({
+        content: `Please provide a valid email address.`,
+        ephemeral: true
+      })
+    }
+    if (!email) return
 
     const role = await interaction.guild.roles.cache.find(
       (role) => role.name == roleName
@@ -53,10 +68,12 @@ const Apply = {
         data: {
           guildID,
           userID,
-          tag
+          tag,
+          email
         }
       })
     } catch (error) {
+      console.log('Error:', error)
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           const targets = (error.meta?.target as string[]) ?? []
